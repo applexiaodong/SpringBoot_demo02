@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>欢迎</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../static/css/login.css" media="all">
+    <script src="../static/layui/layui.js"></script>
+    <script src="../static/jquery/jquery-3.4.1.js"></script>
+    <script src="../static/polyfill/polyfill.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //按钮单击时执行
+            $("#loginBtn").click(function(){
+                var un=$("#username").val();
+                var pw=$("#password").val();
+                $.post("/user/logins",{username:un,password:pw},function(result){
+                    alert(result);
+                    window.location.href = "/login";
+                });
+            });
+
+        });
+    </script>
+</head>
+
+<div class="kit-login">
+    <div class="kit-login-bg"></div>
+    <div class="kit-login-wapper">
+        <h2 class="kit-login-slogan">欢迎使用 <br> LOVEYOU 管理系统</h2>
+        <div class="kit-login-form">
+            <h4 class="kit-login-title">登录</h4>
+            <form class="layui-form">
+                <div class="kit-login-row">
+                    <div class="kit-login-col">
+                        <i class="layui-icon">&#xe612;</i>
+                        <span class="kit-login-input">
+                <input type="text" name="username" lay-verify="required" placeholder="用户名/邮箱/手机号" />
+              </span>
+                    </div>
+                    <div class="kit-login-col"></div>
+                </div>
+                <div class="kit-login-row">
+                    <div class="kit-login-col">
+                        <i class="layui-icon">&#xe64c;</i>
+                        <span class="kit-login-input">
+                <input type="password" name="password" lay-verify="required" placeholder="密码" />
+              </span>
+                    </div>
+                    <div class="kit-login-col"></div>
+                </div>
+                <div class="kit-login-row">
+                    <div class="kit-login-col">
+                        <input type="checkbox" name="rememberMe" title="记住帐号" lay-skin="primary">
+                    </div>
+                </div>
+                <div class="kit-login-row">
+                    <button class="layui-btn kit-login-btn" lay-submit="submit" lay-filter="login_hash">登录</button>
+                </div>
+                <div class="kit-login-row" style="margin-bottom:0;">
+                    <a href="javascript:" style="color: rgb(153, 153, 153); text-decoration: none; font-size: 13px;" id="forgot">忘记密码</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['layer', 'form'], function() {
+        var form = layui.form,
+            $ = layui.jquery;
+
+        $('#forgot').on('click', function() {
+            layer.msg('请联系管理员.');
+        });
+        //监听提交
+        form.on('submit(login_hash)', function(data) {
+            layer.msg(JSON.stringify(data.field));
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url:'/admin/login',
+                data: JSON.stringify(data.field),
+                success:function (result) {
+                    layer.msg("success");
+                }
+            });
+
+            setTimeout(function(){
+                location.href='/';
+            },1000);
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

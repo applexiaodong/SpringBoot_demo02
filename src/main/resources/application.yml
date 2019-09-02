@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: dev
+
+#  #数据源 HiKari无需配置durid
+  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/love?serverTimezone=UTC&characterEncoding=utf-8
+    username: root
+    password: 1234
+#  #thymeleaf模板
+  thymeleaf:
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  mvc:
+    static-path-pattern: /static/**
+
+#热部署配置生效及目录生效
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: /src/main/java
+
+#mybatis配置
+mybatis:
+  mapper-locations: com/dong/demo/dao/xml/*.xml
+  type-aliases-package: com.dong.demo.domain
+
+#通用mappers
+mapper:
+  mappers: com.dong.demo.mapper.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+#pagehelper分页插件配置
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+#日志配置
+#logging:
+#  config: src/main/resources/logback.xml

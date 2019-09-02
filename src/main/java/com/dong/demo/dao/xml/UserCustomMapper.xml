@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dong.demo.dao.UserCustomMapper">
+  <resultMap id="BaseResultMap" type="com.dong.demo.domain.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    Id, username, password, sex, phone, email, picture, state, delete_flag, create_time,
+    update_time
+  </sql>
+
+  <!--查询用户列表-->
+  <select id="selectAllByPage" parameterType="com.dong.demo.domain.User"
+      resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"></include>
+    from
+        user
+    where
+        1=1
+    and delete_flag = 0
+    <if test="username != null">
+      and username like concat('%',#{username},'%')
+    </if>
+    <if test="state != null">
+      and state = #{state}
+    </if>
+  </select>
+
+  <update id="deleteUserById" parameterType="java.lang.Integer">
+    update user set delete_flag = '1',update_time = now() where Id=#{id}
+
+  </update>
+</mapper>

@@ -1,0 +1,42 @@
+server:
+ # servlet:
+  #  context-path: /love
+  port: 8088
+
+#常量
+boy:
+  name: jack
+  age: 25
+  sex: man
+
+  #常量
+#  jwt:
+#    key: 1cdaef38fd155247702158cb70f8e4f8
+
+jwt:
+  key: 1cdaef38fd155247702158cb70f8e4f8
+
+#上传文件路径
+uploadFile:
+  resourceHandler: /upload/**
+  location: H://upload/
+
+#配置文件上传
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1MB  #单个文件最大值，单位可以是MB，KB，默认为1MB
+      max-request-size: 10MB  #多文件上传时，单次内多个文件的最大值，默认为10M
+  redis:
+    port: 6379
+    host: localhost
+    database: 0
+    password: 1234
+    timeout: 10000
+    jedis:
+      pool:
+        max-idle: 200
+        min-idle: 0
+        max-active: 1024
+        max-wait: 10000

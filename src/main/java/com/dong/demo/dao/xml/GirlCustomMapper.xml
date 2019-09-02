@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dong.demo.dao.GirlCustomMapper">
+  <!--查询用户列表-->
+  <select id="selectAllByPage" parameterType="com.dong.demo.domain.Girl"
+      resultType="com.dong.demo.domain.Girl">
+    select
+        *
+    from
+        girl
+    where
+        1=1
+  </select>
+</mapper>

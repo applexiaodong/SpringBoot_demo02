@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>用户添加</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <script src="../static/layui/layui.js"></script>
+    <script type="text/javascript" src="../static/jquery/jquery-3.4.1.js"></script>
+    <style type="text/css">
+        label:before{
+            color:red;
+            content:"*";
+        }
+    </style>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>用户添加</legend>
+</fieldset>
+<form class="layui-form" method="post">
+    <div style="padding: 20px; background-color: #F2F2F2;">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">用户添加</div>
+                    <div class="layui-card-body">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="username" lay-verify="required|username" autocomplete="off"
+                                           placeholder="请输入用户名"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">密码</label>
+                                <div class="layui-input-inline">
+                                    <input type="password" name="password" lay-verify="required|pass" autocomplete="off"
+                                           placeholder="请输入密码"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">性别</label>
+                                <div class="layui-input-inline">
+                                    <input type="radio" name="sex" value="男" title="男" checked>
+                                    <input type="radio" name="sex" value="女" title="女">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">联系方式</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="phone" lay-verify="required|phone" autocomplete="off"
+                                           placeholder="请输入联系方式"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">电子邮箱</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="email" lay-verify="required|email" autocomplete="off"
+                                           placeholder="请输入电子邮箱"
+                                           class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">状态</label>
+                                <div class="layui-input-inline">
+                                    <select name="state">
+                                        <option value="">请选择状态</option>
+                                        <option value="1">激活</option>
+                                        <option value="0">未激活</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="layui-btn" lay-submit lay-filter="formDemo"
+                                style="margin-left: 120px">添加
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+        //监听提交点击事件
+        form.on('submit(formDemo)', function (data) {
+            //像服务端发送请求
+            $.ajax({
+                url: 'add',
+                type: 'POST',
+                data: JSON.stringify(data.field),
+                contentType: 'application/json',  //数据类型格式
+                success: function (result) {
+                    if (result.msg == "success") {
+                        layer.msg('添加成功！', {time: 1 * 1000}, function () {
+                            // location.href = "user/userList";
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg("添加失败！" + result, {icon: 5});
+                    }
+                },
+                error: function (errorMsg) {
+                    alert("数据异常！" + errorMsg);
+                }
+            });
+            return false;
+        });
+
+        //自定义验证规则
+        form.verify({
+            username: function(value,item){
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+            }
+            ,pass: [/^[\S](.+){6,12}$/, '密码必须6到12位']
+        });
+    });
+</script>
+
+</body>
+</html>
