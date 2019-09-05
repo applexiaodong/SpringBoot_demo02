@@ -1,12 +1,22 @@
 package com.dong.demo.controller;
 
 
+import org.jasypt.encryption.StringEncryptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 //@RequestMapping(value = "/main")
 public class WelcomeController {
+
+    private final static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
+
+    @Autowired
+    private StringEncryptor encryptor;
 
     @RequestMapping(value = "/indexOne",method = RequestMethod.GET)
     public String index(){
@@ -50,6 +60,16 @@ public class WelcomeController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String test(){
         return "test";
+    }
+
+    @RequestMapping(value = "/genPass")
+    @ResponseBody
+    public String genPass(){
+        String username = encryptor.encrypt("root");
+        logger.info("加密用户名：{}",username);
+        String password = encryptor.encrypt("1234");
+        logger.info("加密密码：{}",password);
+        return "用户名：" + username +",密码："+password;
     }
 
 }
