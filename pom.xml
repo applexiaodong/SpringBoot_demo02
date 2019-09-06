@@ -222,6 +222,7 @@
                 <version>1.0.0</version>
                 <configuration>
                     <imageName>${docker.image.prefix}/${project.name}:${project.version}</imageName>
+                    <dockerHost> http://192.168.255.3:2375</dockerHost>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
