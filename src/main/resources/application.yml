@@ -4,10 +4,10 @@ spring:
 
 #  #数据源 HiKari无需配置durid
   datasource:
-#    driver-class-name: com.mysql.jdbc.Driver
+##    driver-class-name: com.mysql.jdbc.DriverENC(aXtveK2NcLVKTS+tPUkLoQ==)
     url: jdbc:mysql://localhost:3306/love?serverTimezone=UTC&characterEncoding=utf-8
-    username: root
-    password: 1234
+    username: ENC(+GP4pqv0c0/yiI8FmaLEzQ==)
+    password: ENC(NVlHUQfZcrAlILeDrz7X+A==)
 #  #thymeleaf模板
   thymeleaf:
     encoding: UTF-8
@@ -44,3 +44,8 @@ pagehelper:
 #日志配置
 #logging:
 #  config: src/main/resources/logback.xml
+
+#数据库加密
+jasypt:
+  encryptor:
+    password: wxd

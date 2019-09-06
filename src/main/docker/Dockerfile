@@ -1,4 +1,4 @@
-FROM f00lisher/alpn-jre8-cst
+FROM java:8
 VOLUME /tmp
 ADD demo-0.0.1-SNAPSHOT.jar app.jar
 
